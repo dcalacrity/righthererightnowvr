@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
+
 :root {
   --teal: #00e5c8;
   --cyan: #1de4ff;
@@ -356,44 +357,7 @@ nav.scrolled {
 .pill-red { color: var(--red); border-color: rgba(255,45,74,.35); background: rgba(255,45,74,.05); }
 .pill-gold { color: var(--gold); border-color: rgba(240,165,0,.35); background: rgba(240,165,0,.05); }
 
-/* BRANCHES */
-.branches { background: var(--mid); }
-.branch-intro { text-align: center; max-width: 640px; margin: 0 auto 2.5rem; }
-.branch-intro .section-lead { margin: 0 auto; text-align: center; }
-.node-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1rem;
-}
-.node {
-  border: 1px solid var(--border);
-  padding: 1.35rem 1.25rem;
-  background: rgba(6,8,16,.5);
-  transition: border-color .25s, transform .25s;
-}
-.node:hover {
-  border-color: rgba(0,229,200,.4);
-  transform: translateY(-3px);
-}
-.node-id {
-  font-family: 'Space Mono', monospace;
-  font-size: .55rem; letter-spacing: .18em;
-  color: var(--teal); margin-bottom: .5rem;
-}
-.node-title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.35rem; letter-spacing: .04em;
-  margin-bottom: .5rem;
-}
-.node-desc { font-size: .95rem; color: var(--muted); line-height: 1.6; }
-.node-tag {
-  display: inline-block; margin-top: .75rem;
-  font-family: 'Space Mono', monospace;
-  font-size: .5rem; letter-spacing: .14em;
-  padding: .25rem .5rem;
-  border: 1px solid var(--border);
-  color: var(--muted);
-}
+/* BRANCHES — see enhanced */
 
 /* TECH */
 .tech-grid {
@@ -805,9 +769,213 @@ footer {
   .mosaic-item:nth-child(1) { grid-column: span 2 !important; grid-row: span 2 !important; }
   .crew-card.featured { grid-column: span 1; }
 }
+
+
+/* PAGE LOADER */
+#page-loader {
+  position: fixed; inset: 0; z-index: 10000;
+  background: var(--black);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem;
+  transition: opacity 0.7s, visibility 0.7s;
+}
+#page-loader.out { opacity: 0; visibility: hidden; pointer-events: none; }
+.loader-title {
+  font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 12vw, 6rem);
+  letter-spacing: 0.12em; color: var(--text);
+}
+.loader-title span { color: var(--teal); }
+.loader-bar-wrap { width: 220px; height: 2px; background: rgba(0,229,200,0.12); }
+.loader-bar { height: 100%; width: 0; background: linear-gradient(90deg, var(--teal), var(--cyan)); transition: width 1.4s cubic-bezier(.4,0,.2,1); }
+.loader-sub { font-family: 'Space Mono', monospace; font-size: 0.58rem; letter-spacing: 0.28em; color: var(--muted); }
+
+#grain { position: fixed; inset: 0; pointer-events: none; z-index: 9985; opacity: 0.04; }
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(36px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes heroKen {
+  0% { transform: scale(1.08) translate(0, 0); }
+  100% { transform: scale(1.14) translate(-1.5%, -1%); }
+}
+.hero-photo { animation: heroKen 22s ease-in-out infinite alternate; transform: translateY(var(--scroll-y, 0)); }
+.hero-layout > div:first-child { animation: fadeSlideUp 0.9s ease both; }
+.hero-poster { animation: fadeSlideUp 1s 0.15s ease both; opacity: 0; animation-fill-mode: forwards; }
+.hero-poster.vis, .hero.ready .hero-poster { opacity: 1; }
+
+.scroll-cue {
+  position: absolute; bottom: 2rem; left: clamp(1.25rem, 8vw, 3rem); z-index: 4;
+  display: flex; align-items: center; gap: 0.75rem;
+  font-family: 'Space Mono', monospace; font-size: 0.55rem; letter-spacing: 0.2em; color: var(--muted);
+}
+.scroll-cue-line {
+  width: 1px; height: 48px;
+  background: linear-gradient(var(--teal), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.4; transform: scaleY(0.6); transform-origin: top; }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+.stats-bar {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border-block: 1px solid var(--border);
+  background: var(--mid);
+}
+.stats-bar div {
+  padding: 1.5rem 1rem; text-align: center;
+  border-right: 1px solid var(--border);
+}
+.stats-bar div:last-child { border-right: none; }
+.stats-bar .stat-n { font-family: 'Bebas Neue', sans-serif; font-size: 2.4rem; color: var(--teal); line-height: 1; }
+.stats-bar .stat-l {
+  font-family: 'Space Mono', monospace; font-size: 0.52rem; letter-spacing: 0.16em; color: var(--muted); margin-top: 0.35rem;
+}
+
+/* BRANCH NODE CARDS */
+.branches { background: var(--mid); position: relative; overflow: hidden; }
+.branches::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(0,229,200,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,200,0.03) 1px, transparent 1px);
+  background-size: 40px 40px; pointer-events: none;
+}
+.branch-header { text-align: center; max-width: 680px; margin: 0 auto 3rem; position: relative; z-index: 1; }
+.branch-nodes {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+  position: relative; z-index: 1;
+}
+.branch-nodes::after {
+  content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,229,200,0.2), transparent); pointer-events: none;
+}
+.node-card {
+  background: rgba(6,8,16,0.85); border: 1px solid rgba(0,229,200,0.1);
+  padding: 2rem 1.6rem; position: relative;
+  transition: border-color 0.25s, background 0.25s, transform 0.25s;
+  backdrop-filter: blur(6px);
+}
+.node-card:hover {
+  border-color: rgba(0,229,200,0.45); background: rgba(0,229,200,0.04); transform: translateY(-4px);
+}
+.node-id { font-family: 'Space Mono', monospace; font-size: 0.58rem; color: var(--teal); letter-spacing: 0.18em; margin-bottom: 0.75rem; opacity: 0.85; }
+.node-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.45rem; letter-spacing: 0.04em; margin-bottom: 0.55rem; line-height: 1; }
+.node-desc { font-size: 0.92rem; color: var(--muted); line-height: 1.65; }
+.node-outcome {
+  margin-top: 1rem; font-family: 'Space Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em;
+  padding: 0.35rem 0.75rem; display: inline-block;
+  clip-path: polygon(4px 0, 100% 0, calc(100% - 4px) 100%, 0 100%);
+}
+.outcome-survive { background: rgba(0,229,200,0.15); color: var(--teal); }
+.outcome-fail { background: rgba(255,45,74,0.15); color: var(--red); }
+.outcome-choice { background: rgba(240,165,0,0.15); color: var(--gold); }
+.node-corner { position: absolute; width: 8px; height: 8px; }
+.node-corner.tl { top: -1px; left: -1px; border-top: 2px solid var(--teal); border-left: 2px solid var(--teal); opacity: 0; transition: opacity 0.2s; }
+.node-corner.br { bottom: -1px; right: -1px; border-bottom: 2px solid var(--teal); border-right: 2px solid var(--teal); opacity: 0; transition: opacity 0.2s; }
+.node-card:hover .node-corner { opacity: 1; }
+
+.reveal-delay-1 { transition-delay: 0.08s !important; }
+.reveal-delay-2 { transition-delay: 0.16s !important; }
+.reveal-delay-3 { transition-delay: 0.24s !important; }
+.reveal-delay-4 { transition-delay: 0.32s !important; }
+
+/* TECH HUB */
+.spec-row {
+  display: flex; border-bottom: 1px solid rgba(0,229,200,0.08);
+  padding: 0.85rem 0; align-items: baseline; gap: 1rem;
+}
+.spec-key { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.14em; color: var(--muted); min-width: 130px; flex-shrink: 0; }
+.spec-val { font-size: 0.98rem; font-weight: 600; }
+.spec-val .highlight { color: var(--teal); }
+.hub-diagram {
+  background: rgba(0,229,200,0.03); border: 1px solid rgba(0,229,200,0.12); padding: 1.75rem; margin-top: 1.5rem;
+}
+.hub-title { font-family: 'Space Mono', monospace; font-size: 0.58rem; letter-spacing: 0.22em; color: var(--teal); margin-bottom: 1.25rem; text-align: center; }
+.hub-pipeline { display: flex; align-items: center; justify-content: space-between; gap: 0.35rem; flex-wrap: wrap; }
+.pipe-node { flex: 1; min-width: 70px; background: rgba(6,8,16,0.8); border: 1px solid rgba(0,229,200,0.15); padding: 0.75rem 0.5rem; text-align: center; }
+.pipe-node-name { font-family: 'Bebas Neue', sans-serif; font-size: 0.9rem; letter-spacing: 0.08em; display: block; }
+.pipe-node-sub { font-family: 'Space Mono', monospace; font-size: 0.48rem; color: var(--muted); letter-spacing: 0.12em; }
+.pipe-arrow { color: var(--teal); opacity: 0.65; flex-shrink: 0; }
+.hub-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin-top: 1.25rem; }
+.metric-box { border: 1px solid var(--border); padding: 0.85rem; text-align: center; background: rgba(0,229,200,0.02); }
+.metric-num { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--teal); display: block; line-height: 1; }
+.metric-label { font-family: 'Space Mono', monospace; font-size: 0.48rem; letter-spacing: 0.14em; color: var(--muted); }
+.hub-status {
+  margin-top: 1rem; padding: 0.75rem; background: rgba(0,229,200,0.04); border: 1px solid rgba(0,229,200,0.1);
+  font-family: 'Space Mono', monospace; font-size: 0.55rem; letter-spacing: 0.12em; color: var(--muted);
+}
+.hub-status em { color: #00ff88; font-style: normal; }
+
+.tech-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; }
+.tech-bts-stack { display: grid; gap: 0.65rem; }
+.tech-bts-stack img { width: 100%; object-fit: cover; border: 1px solid var(--border); }
+
+/* VISION */
+.vision-section {
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg, var(--dark) 0%, #0a1520 50%, var(--black) 100%);
+}
+.vision-lightning {
+  position: absolute; right: -10%; top: 50%; transform: translateY(-50%);
+  width: 55%; max-width: 600px; opacity: 0.06; pointer-events: none;
+  filter: blur(2px);
+}
+.vision-content { position: relative; z-index: 1; max-width: 720px; }
+.vision-items { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
+.vision-item {
+  display: grid; grid-template-columns: 56px 1fr; gap: 1.25rem; align-items: start;
+  padding: 1.35rem 1.5rem; border: 1px solid var(--border);
+  background: rgba(6,8,16,0.5); transition: border-color 0.3s, transform 0.3s;
+}
+.vision-item:hover { border-color: rgba(0,229,200,0.35); transform: translateX(6px); }
+.vision-item.funding { border-color: rgba(0,229,200,0.3); background: linear-gradient(135deg, rgba(0,229,200,0.08), rgba(6,8,16,0.6)); }
+.vision-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: rgba(0,229,200,0.25); line-height: 1; }
+.vision-item-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.35rem; letter-spacing: 0.04em; margin-bottom: 0.4rem; }
+.vision-item-body { font-size: 0.95rem; color: var(--muted); line-height: 1.65; }
+.vision-item-body a { color: var(--teal); }
+
+/* VR EXPERIENCE */
+.experience-section { background: var(--black); border-top: 1px solid var(--border); }
+.exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+.exp-features { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
+.exp-feat {
+  display: flex; gap: 1rem; padding: 1rem 1.15rem;
+  border: 1px solid var(--border); background: rgba(0,229,200,0.02);
+  transition: border-color 0.25s;
+}
+.exp-feat:hover { border-color: rgba(0,229,200,0.35); }
+.exp-feat-icon { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--teal); line-height: 1; min-width: 2rem; }
+.exp-feat h4 { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; margin-bottom: 0.25rem; }
+.exp-feat p { font-size: 0.88rem; color: var(--muted); line-height: 1.55; }
+.exp-visual { position: relative; }
+.exp-visual img { border: 1px solid var(--border); box-shadow: 0 24px 60px rgba(0,0,0,0.5); }
+.exp-badge {
+  position: absolute; top: 1rem; right: 1rem;
+  font-family: 'Space Mono', monospace; font-size: 0.55rem; letter-spacing: 0.15em;
+  background: rgba(6,8,16,0.9); border: 1px solid var(--teal); color: var(--teal); padding: 0.4rem 0.7rem;
+}
+
+.pill { transition: transform 0.2s, box-shadow 0.2s; cursor: default; }
+.pill:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+
+@media (max-width: 900px) {
+  .branch-nodes { grid-template-columns: 1fr; }
+  .branch-nodes::after { display: none; }
+  .tech-layout { grid-template-columns: 1fr; }
+  .exp-grid { grid-template-columns: 1fr; }
+  .stats-bar { grid-template-columns: 1fr 1fr; }
+}
+
 </style>
 </head>
 <body>
+<div id="page-loader" aria-hidden="true">
+  <div class="loader-title">RIGHT <span>HERE</span> RIGHT <span>NOW</span></div>
+  <div class="loader-bar-wrap"><div class="loader-bar" id="loader-bar"></div></div>
+  <div class="loader-sub">Loading Interactive VR Cinema</div>
+</div>
+<canvas id="grain" aria-hidden="true"></canvas>
 
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
@@ -832,6 +1000,7 @@ footer {
     <li><a href="#branches">BRANCHES</a></li>
     <li><a href="#tech">TECH</a></li>
     <li><a href="#process">PROCESS</a></li>
+    <li><a href="#experience">VR</a></li>
     <li><a href="#gallery">GALLERY</a></li>
     <li><a href="#team">TEAM</a></li>
     <li><a href="#partner">PARTNER</a></li>
@@ -839,7 +1008,7 @@ footer {
   <a href="#download" class="nav-cta">GET THE APP</a>
 </nav>
 
-<header class="hero" id="top">
+<header class="hero ready" id="top">
   <img class="hero-photo" src="assets/bts/IMG_2703.jpg" fetchpriority="high" decoding="async" alt="On location at UNCW">
   <div class="hero-grid"></div>
   <div class="hero-bg"></div>
@@ -864,6 +1033,7 @@ footer {
       <div><div class="stat-n">FREE</div><div class="stat-l">ON SIDEQUEST</div></div>
     </div>
   </div>
+  <div class="scroll-cue"><div class="scroll-cue-line"></div><span>SCROLL</span></div>
 </header>
 
 <div class="ticker" aria-hidden="true">
@@ -885,6 +1055,13 @@ footer {
     <span class="ticker-item">SIDEQUEST FREE ◆</span>
     <span class="ticker-item">YOUR CHOICE MATTERS ◆</span>
   </div>
+</div>
+
+<div class="stats-bar" aria-label="Production stats">
+  <div class="reveal"><div class="stat-n">16</div><div class="stat-l">SCENE NODES</div></div>
+  <div class="reveal reveal-delay-1"><div class="stat-n">22</div><div class="stat-l">BRANCH PATHS</div></div>
+  <div class="reveal reveal-delay-2"><div class="stat-n">11K</div><div class="stat-l">CAPTURE</div></div>
+  <div class="reveal reveal-delay-3"><div class="stat-n">∞</div><div class="stat-l">UNIQUE PLAYTHROUGHS</div></div>
 </div>
 
 <section class="section bts-spotlight" id="moments">
@@ -920,12 +1097,12 @@ footer {
       <img class="story-visual-main" src="assets/bts/IMG_2737.jpg" alt="Warehouse set" loading="lazy">
       <img class="story-visual-inset" src="assets/bts/IMG_2861.jpg" alt="Black box rehearsal" loading="lazy">
     </div>
-    <div class="reveal d1">
+    <div class="reveal reveal-delay-2">
       <div class="section-label">THE NARRATIVE</div>
       <h2 class="section-title">YOU ARE<br>LUCAS.</h2>
       <div class="story-divider"></div>
-      <p class="section-lead">A picnic date turns violent when Janaye confronts you — then armed strangers take everything. Bound in an abandoned warehouse, every second counts.</p>
-      <p class="section-lead" style="margin-top:1rem;">Sacrifice yourself to protect her? Tell the truth or construct a lie? Bolt for the door or wait for the moment? <strong>Every choice echoes.</strong></p>
+      <p class="section-lead">A picnic date turns violent when your girlfriend Janaye confronts you — then armed strangers take everything. Bound in an abandoned warehouse, every second counts. <strong>Every choice echoes.</strong></p>
+      <p class="section-lead" style="margin-top:1rem;">Viewers don't just watch — they <strong>decide</strong>. Sacrifice yourself to protect her? Tell the truth or construct a lie? Bolt for the door or wait for the moment? No two playthroughs are the same.</p>
       <div class="pills">
         <span class="pill pill-teal">TAKE ME INSTEAD</span>
         <span class="pill pill-red">KILL HER WORTHLESS ASS</span>
@@ -940,38 +1117,99 @@ footer {
 
 <section class="section branches" id="branches">
   <div class="section-inner">
-    <div class="branch-intro reveal">
+    <div class="branch-header reveal">
       <div class="section-label">BRANCHING LOGIC</div>
       <h2 class="section-title">EVERY NODE.<br>EVERY EDGE.</h2>
-      <p class="section-lead">Version 0.0.1 maps 16 scenes and 22 paths. The funded build scales to a deeper multi-tier architecture — more nodes, more consequence, more replay.</p>
+      <p class="section-lead" style="margin:0 auto;text-align:center;max-width:58ch;">The Alacrity Hub maps a living logic web of <strong>16 scenes</strong> and <strong>22 branching paths</strong>. Your loyalty, honesty, and survival instincts are all tracked — every playthrough is different.</p>
     </div>
-    <div class="node-grid">
-      <article class="node reveal"><div class="node-id">EVENT ZERO</div><h3 class="node-title">THE PICNIC</h3><p class="node-desc">Janaye demands answers before strangers arrive and change everything.</p><span class="node-tag">CATALYST</span></article>
-      <article class="node reveal d1"><div class="node-id">EVENT A</div><h3 class="node-title">THE FIRST CHOICE</h3><p class="node-desc">Sacrifice yourself for Janaye, or betray her to survive?</p><span class="node-tag">LOYALTY</span></article>
-      <article class="node reveal d2"><div class="node-id">EVENT B/C</div><h3 class="node-title">TRUTH OR LIE</h3><p class="node-desc">Confess, blame the anniversary, or ignore fallout and focus on escape.</p><span class="node-tag">RELATIONSHIP</span></article>
-      <article class="node reveal d1"><div class="node-id">EVENT D</div><h3 class="node-title">ESCAPE WINDOW</h3><p class="node-desc">Run for the door or wait to rip restraints — both paths have a price.</p><span class="node-tag">SURVIVAL QTE</span></article>
-      <article class="node reveal d2"><div class="node-id">BRANCH 1A</div><h3 class="node-title">TAKE ME INSTEAD</h3><p class="node-desc">Selflessness in the face of a gun — heroic or fatal.</p><span class="node-tag">HEROIC</span></article>
-      <article class="node reveal d3"><div class="node-id">BRANCH 2A</div><h3 class="node-title">GAME OVER</h3><p class="node-desc">Wrong move, wrong timing — some choices end the story.</p><span class="node-tag">FATAL</span></article>
+    <div class="branch-nodes">
+      <div class="node-card reveal">
+        <div class="node-corner tl"></div><div class="node-corner br"></div>
+        <div class="node-id">EVENT ZERO · CATALYST</div>
+        <div class="node-title">THE PICNIC CONFRONTATION</div>
+        <p class="node-desc">Janaye demands answers. The tension peaks before strangers arrive and change everything.</p>
+        <span class="node-outcome outcome-choice">FORCES THE STORY</span>
+      </div>
+      <div class="node-card reveal reveal-delay-1">
+        <div class="node-corner tl"></div><div class="node-corner br"></div>
+        <div class="node-id">EVENT A · LOYALTY TEST</div>
+        <div class="node-title">THE FIRST CHOICE</div>
+        <p class="node-desc">Bound in the warehouse. Sacrifice yourself for Janaye, or betray her to survive?</p>
+        <span class="node-outcome outcome-choice">PATH-DEFINING</span>
+      </div>
+      <div class="node-card reveal reveal-delay-2">
+        <div class="node-corner tl"></div><div class="node-corner br"></div>
+        <div class="node-id">EVENT B/C · RELATIONAL</div>
+        <div class="node-title">THE TRUTH OR THE LIE</div>
+        <p class="node-desc">Confess the affair, blame the anniversary, or ignore the fallout entirely and focus on escape.</p>
+        <span class="node-outcome outcome-choice">RELATIONSHIP TRACK</span>
+      </div>
+      <div class="node-card reveal reveal-delay-1">
+        <div class="node-corner tl"></div><div class="node-corner br"></div>
+        <div class="node-id">EVENT D · SURVIVAL</div>
+        <div class="node-title">THE ESCAPE WINDOW</div>
+        <p class="node-desc">Quick-Time Event: run for the door and risk a bullet, or wait to rip the restraints. Both paths diverge hard.</p>
+        <span class="node-outcome outcome-survive">POSSIBLE ESCAPE</span>
+      </div>
+      <div class="node-card reveal reveal-delay-2">
+        <div class="node-corner tl"></div><div class="node-corner br"></div>
+        <div class="node-id">BRANCH 1A</div>
+        <div class="node-title">TAKE ME INSTEAD</div>
+        <p class="node-desc">Selflessness in the face of a gun. A bold gambit that may buy Janaye her life — or cost you yours.</p>
+        <span class="node-outcome outcome-survive">HEROIC OUTCOME</span>
+      </div>
+      <div class="node-card reveal reveal-delay-3">
+        <div class="node-corner tl"></div><div class="node-corner br"></div>
+        <div class="node-id">BRANCH 2A · FATAL</div>
+        <div class="node-title">GAME OVER</div>
+        <p class="node-desc">Wrong move, wrong timing. A gunshot rings out and the screen fades to black. Some choices have permanent consequences.</p>
+        <span class="node-outcome outcome-fail">FATAL ENDING</span>
+      </div>
     </div>
   </div>
 </section>
 
 <section class="section" id="tech">
-  <div class="section-inner tech-grid">
+  <div class="section-inner tech-layout">
     <div class="reveal">
       <div class="section-label">THE PIPELINE</div>
       <h2 class="section-title">ALACRITY<br>HUB</h2>
-      <p class="section-lead">No template existed. We built a visual node-graph that tracks emotional tension, story branches, and exports to Unity's VR player.</p>
-      <div class="tech-specs">
-        <div class="spec"><div class="spec-k">CAPTURE</div><div class="spec-v">11K · 4K delivery</div></div>
-        <div class="spec"><div class="spec-k">AUDIO</div><div class="spec-v">7.1 spatial</div></div>
-        <div class="spec"><div class="spec-k">NODES</div><div class="spec-v">16 → scaling up</div></div>
-        <div class="spec"><div class="spec-k">PLATFORM</div><div class="spec-v">Meta Quest</div></div>
+      <p class="section-lead">No template existed for this. We built one — a visual node-graph that manages emotional tension metrics, tracks story branches, and exports directly to Unity's VR player.</p>
+      <div class="tech-specs" style="display:block;margin-top:1.5rem;">
+        <div class="spec-row"><span class="spec-key">HEADSET</span><span class="spec-val"><span class="highlight">Meta Quest</span> Family</span></div>
+        <div class="spec-row"><span class="spec-key">CAMERA RIG</span><span class="spec-val">Insta360 Titan + Canon R-Series</span></div>
+        <div class="spec-row"><span class="spec-key">RESOLUTION</span><span class="spec-val"><span class="highlight">Shot 11K</span> · Presented in <span class="highlight">4K</span></span></div>
+        <div class="spec-row"><span class="spec-key">AUDIO</span><span class="spec-val">Ambisonic · <span class="highlight">7.1 Binaural</span></span></div>
+        <div class="spec-row"><span class="spec-key">POST</span><span class="spec-val">DaVinci Resolve · <span class="highlight">1TB+</span> per shoot</span></div>
+        <div class="spec-row"><span class="spec-key">GAME ENGINE</span><span class="spec-val">Unity · JSON VR Bundle</span></div>
+        <div class="spec-row"><span class="spec-key">NODES · EDGES</span><span class="spec-val"><span class="highlight">16</span> scenes · <span class="highlight">22</span> paths (v0.0.1)</span></div>
+        <div class="spec-row"><span class="spec-key">COMPLIANCE</span><span class="spec-val"><span class="highlight">VRC.Quest.Privacy.1</span> Verified</span></div>
+        <div class="spec-row"><span class="spec-key">DISTRIBUTION</span><span class="spec-val">SideQuest · <span class="highlight">Meta Horizon</span> (coming)</span></div>
+      </div>
+      <div class="hub-diagram reveal reveal-delay-2">
+        <div class="hub-title">// ALACRITY HUB · EXPORT PIPELINE</div>
+        <div class="hub-pipeline">
+          <div class="pipe-node"><span class="pipe-node-name">STORY MAP</span><span class="pipe-node-sub">NODE GRAPH</span></div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-node"><span class="pipe-node-name">HUB</span><span class="pipe-node-sub">JSON BUNDLE</span></div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-node"><span class="pipe-node-name">UNITY</span><span class="pipe-node-sub">VR PLAYER</span></div>
+          <div class="pipe-arrow">→</div>
+          <div class="pipe-node"><span class="pipe-node-name">APK</span><span class="pipe-node-sub">META QUEST</span></div>
+        </div>
+        <div class="hub-metrics">
+          <div class="metric-box"><span class="metric-num">16</span><span class="metric-label">SCENE NODES</span></div>
+          <div class="metric-box"><span class="metric-num">22</span><span class="metric-label">BRANCH EDGES</span></div>
+          <div class="metric-box"><span class="metric-num">3</span><span class="metric-label">STORY TRACKS</span></div>
+          <div class="metric-box"><span class="metric-num">100</span><span class="metric-label">TENSION SCALE</span></div>
+        </div>
+        <div class="hub-status"><span style="color:var(--teal)">GRAPH HEALTH:</span> <em>● ALL NODES CONNECTED · ACTIVE</em></div>
       </div>
     </div>
-    <div class="tech-visuals reveal d2">
-      <img class="tech-photo" src="assets/bts/IMG_3373.jpg" alt="IFML Media Lab" loading="lazy">
-      <img class="tech-photo-secondary" src="assets/bts/IMG_2830.jpg" alt="Script and node mapping in studio" loading="lazy">
+    <div class="tech-bts-stack reveal reveal-delay-1">
+      <img src="assets/bts/IMG_3373.jpg" alt="IFML Media Lab" loading="lazy" style="aspect-ratio:16/11;object-fit:cover;">
+      <img src="assets/bts/IMG_2830.jpg" alt="Script studio" loading="lazy" style="aspect-ratio:16/9;object-fit:cover;">
+      <img src="assets/bts/IMG_2816.jpg" alt="Story map planning" loading="lazy" style="aspect-ratio:16/9;object-fit:cover;">
     </div>
   </div>
 </section>
@@ -981,7 +1219,7 @@ footer {
     <div class="funding-banner reveal">
       <div>
         <h3>BUILDING THE NEXT-GEN NODE MAP</h3>
-        <p>We proved the pipeline with 16 nodes. The next production tier is a <strong>bigger, more serious branching structure</strong> — deeper paths, richer consequence tracking, and flagship VR scope. We're seeking partners and funding to scale.</p>
+        <p>We proved the pipeline with 16 nodes and 22 edges. The next production tier is a <strong>bigger, more serious branching structure</strong> — deeper paths, richer consequence tracking, and flagship VR scope. We're seeking partners and funding to scale.</p>
       </div>
       <a class="funding-email" href="mailto:dcalacrity@gmail.com">dcalacrity@gmail.com</a>
     </div>
@@ -1123,41 +1361,84 @@ footer {
   </div>
 </section>
 
-<section class="section vision" id="partner">
+<section class="section vision-section" id="partner">
   <div class="section-inner">
-    <div class="reveal">
-      <div class="section-label">WHAT COMES NEXT</div>
-      <h2 class="section-title">PARTNER &amp; ROADMAP</h2>
+    <img class="vision-lightning" src="assets/bts/IMG_2737.jpg" alt="" aria-hidden="true" loading="lazy">
+    <div class="vision-content">
+      <div class="reveal">
+        <div class="section-label">WHAT COMES NEXT</div>
+        <h2 class="section-title">PARTNER &amp;<br>ROADMAP</h2>
+        <p class="section-lead">We proved the pipeline with 16 nodes. The funded build scales to flagship interactive VR scope.</p>
+      </div>
+      <div class="vision-items">
+        <div class="vision-item funding reveal">
+          <div class="vision-num">00</div>
+          <div>
+            <div class="vision-item-title">SCALE THE NODE ARCHITECTURE</div>
+            <p class="vision-item-body">Fund the next production tier: expanded branching, consequence systems, and Alacrity Hub tooling. Partners welcome — <a href="mailto:dcalacrity@gmail.com">dcalacrity@gmail.com</a></p>
+          </div>
+        </div>
+        <div class="vision-item reveal reveal-delay-1">
+          <div class="vision-num">01</div>
+          <div>
+            <div class="vision-item-title">META HORIZON STORE LAUNCH</div>
+            <p class="vision-item-body">VRC compliance verified. Privacy policy live. Porting directly to Meta Horizon Store for mainstream Quest reach.</p>
+          </div>
+        </div>
+        <div class="vision-item reveal reveal-delay-2">
+          <div class="vision-num">02</div>
+          <div>
+            <div class="vision-item-title">AI SCRIPT IMPORTER</div>
+            <p class="vision-item-body">Alacrity Hub auto-parses multipathway screenplays into full node webs — cutting pre-production from weeks to seconds.</p>
+          </div>
+        </div>
+        <div class="vision-item reveal reveal-delay-3">
+          <div class="vision-num">03</div>
+          <div>
+            <div class="vision-item-title">QUANTUM LEAP PREMIUM DLC</div>
+            <p class="vision-item-body">Premium branches — new environments, chiaroscuro lighting, atmospheric depth beyond the warehouse.</p>
+          </div>
+        </div>
+        <div class="vision-item reveal reveal-delay-4">
+          <div class="vision-num">04</div>
+          <div>
+            <div class="vision-item-title">THE EXPERIENCE ARCHITECT</div>
+            <p class="vision-item-body">Immersive architectural spaces — digital and physical — where the line between viewer and narrative is permanently erased.</p>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="vision-list">
-      <div class="vision-row reveal d1">
-        <div class="vision-num">01</div>
-        <div>
-          <h4>SCALE THE NODE ARCHITECTURE</h4>
-          <p>Fund the next production tier: expanded branching, consequence systems, and tooling. <a href="mailto:dcalacrity@gmail.com">dcalacrity@gmail.com</a></p>
+  </div>
+</section>
+
+<section class="section experience-section" id="experience">
+  <div class="section-inner exp-grid">
+    <div class="reveal">
+      <div class="section-label">IN THE HEADSET</div>
+      <h2 class="section-title">THE VR<br>EXPERIENCE</h2>
+      <p class="section-lead">Live-action 360° cinema with real viewer agency. You're Lucas — every choice is a button press away from survival or a fatal ending.</p>
+      <div class="exp-features">
+        <div class="exp-feat reveal reveal-delay-1">
+          <span class="exp-feat-icon">01</span>
+          <div><h4>BRANCHING LIVE ACTION</h4><p>16 scene nodes, 22 edges — loyalty, truth, and escape paths tracked in real time.</p></div>
+        </div>
+        <div class="exp-feat reveal reveal-delay-2">
+          <span class="exp-feat-icon">02</span>
+          <div><h4>SPATIAL AUDIO</h4><p>Ambisonic 7.1 binaural mix — hear the warehouse close in around you.</p></div>
+        </div>
+        <div class="exp-feat reveal reveal-delay-3">
+          <span class="exp-feat-icon">03</span>
+          <div><h4>FREE ON SIDEQUEST</h4><p>v0.0.1 available now on Meta Quest via SideQuest. Meta Horizon port in progress.</p></div>
         </div>
       </div>
-      <div class="vision-row reveal d2">
-        <div class="vision-num">02</div>
-        <div>
-          <h4>META HORIZON STORE</h4>
-          <p>VRC compliance verified. Privacy policy live. Porting to Meta Horizon for mainstream Quest reach.</p>
-        </div>
+      <div class="hero-actions" style="margin-top:1.75rem;">
+        <a href="https://sidequestvr.com/app/60221" target="_blank" rel="noopener" class="btn-primary">GET IT FREE</a>
+        <a href="#process" class="btn-ghost">SEE HOW WE MADE IT</a>
       </div>
-      <div class="vision-row reveal d2">
-        <div class="vision-num">03</div>
-        <div>
-          <h4>AI SCRIPT IMPORTER</h4>
-          <p>Alacrity Hub auto-parses multipathway screenplays into full node webs — weeks to seconds.</p>
-        </div>
-      </div>
-      <div class="vision-row reveal d3">
-        <div class="vision-num">04</div>
-        <div>
-          <h4>QUANTUM LEAP DLC</h4>
-          <p>Premium branches — new environments, chiaroscuro lighting, depth beyond the warehouse.</p>
-        </div>
-      </div>
+    </div>
+    <div class="exp-visual reveal reveal-delay-2">
+      <img src="assets/bts/IMG_3282.jpg" alt="VR production on set" loading="lazy">
+      <span class="exp-badge">META QUEST · VR</span>
     </div>
   </div>
 </section>
@@ -1217,7 +1498,7 @@ document.addEventListener('mousemove', e => {
   ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
   requestAnimationFrame(loop);
 })();
-document.querySelectorAll('a, button, .mosaic-item, .node, .spine-card').forEach(el => {
+document.querySelectorAll('a, button, .mosaic-item, .node-card, .spine-card, .vision-item, .node').forEach(el => {
   el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
   el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
 });
@@ -1282,6 +1563,65 @@ function drawBranch() {
 }
 drawBranch();
 window.addEventListener('resize', drawBranch);
+
+// Page loader
+const loader = document.getElementById('page-loader');
+const loaderBar = document.getElementById('loader-bar');
+requestAnimationFrame(() => { loaderBar.style.width = '100%'; });
+window.addEventListener('load', () => {
+  setTimeout(() => loader.classList.add('out'), 400);
+});
+
+// Film grain
+const grain = document.getElementById('grain');
+function resizeGrain() {
+  grain.width = window.innerWidth;
+  grain.height = window.innerHeight;
+}
+resizeGrain();
+const gx = grain.getContext('2d');
+function drawGrain() {
+  const w = grain.width, h = grain.height;
+  const img = gx.createImageData(w, h);
+  for (let i = 0; i < img.data.length; i += 4) {
+    const v = Math.random() * 255;
+    img.data[i] = img.data[i+1] = img.data[i+2] = v;
+    img.data[i+3] = 18;
+  }
+  gx.putImageData(img, 0, 0);
+  requestAnimationFrame(drawGrain);
+}
+let grainFrame = 0;
+function drawGrainThrottled() {
+  grainFrame++;
+  if (grainFrame % 2 === 0) drawGrain();
+  else requestAnimationFrame(drawGrainThrottled);
+}
+drawGrainThrottled();
+window.addEventListener('resize', resizeGrain);
+
+// Hero parallax
+const heroPhoto = document.querySelector('.hero-photo');
+window.addEventListener('scroll', () => {
+  if (heroPhoto) {
+    const y = Math.min(scrollY * 0.35, 180);
+    heroPhoto.style.setProperty('--scroll-y', y * 0.12 + 'px');
+  }
+}, { passive: true });
+
+// Active nav highlight
+const sections = document.querySelectorAll('section[id], header[id]');
+const navAs = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(sec => {
+    if (scrollY >= sec.offsetTop - 120) cur = sec.id;
+  });
+  navAs.forEach(a => {
+    a.style.color = a.getAttribute('href') === '#' + cur ? 'var(--teal)' : '';
+  });
+}, { passive: true });
+
 </script>
 </body>
 </html>
