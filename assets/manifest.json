@@ -1,0 +1,132 @@
+{
+  "files": [
+    [
+      "assets/hub-map.webp",
+      8076,
+      "hub_map"
+    ],
+    [
+      "assets/hub-multipath.webp",
+      56502,
+      "hub_multipath"
+    ],
+    [
+      "assets/luke-rig.webp",
+      90442,
+      "luke_rig"
+    ],
+    [
+      "assets/img-2703.webp",
+      423330,
+      "img_2703"
+    ],
+    [
+      "assets/img-2737.webp",
+      186006,
+      "img_2737"
+    ],
+    [
+      "assets/img-2816.webp",
+      92616,
+      "img_2816"
+    ],
+    [
+      "assets/img-2830.webp",
+      90046,
+      "img_2830"
+    ],
+    [
+      "assets/img-2861.webp",
+      110082,
+      "img_2861"
+    ],
+    [
+      "assets/img-3282.webp",
+      60106,
+      "img_3282"
+    ],
+    [
+      "assets/img-3373.webp",
+      242696,
+      "img_3373"
+    ],
+    [
+      "assets/still-1.webp",
+      61126,
+      "still_1"
+    ],
+    [
+      "assets/still-2.webp",
+      66618,
+      "still_2"
+    ],
+    [
+      "assets/still-3.webp",
+      70104,
+      "still_3"
+    ],
+    [
+      "assets/hero-wide.webp",
+      112434,
+      "hero_wide"
+    ],
+    [
+      "assets/poster.webp",
+      271328,
+      "poster"
+    ],
+    [
+      "assets/logo.webp",
+      9182,
+      "logo"
+    ],
+    [
+      "assets/frame-1.webp",
+      123038,
+      "frame_1"
+    ],
+    [
+      "assets/frame-2.webp",
+      234754,
+      "frame_2"
+    ],
+    [
+      "assets/frame-3.webp",
+      259306,
+      "frame_3"
+    ],
+    [
+      "assets/frame-4.webp",
+      43282,
+      "frame_4"
+    ],
+    [
+      "assets/frame-5.webp",
+      184502,
+      "frame_5"
+    ]
+  ],
+  "imgMap": {
+    "hub_map": "assets/hub-map.webp",
+    "hub_multipath": "assets/hub-multipath.webp",
+    "luke_rig": "assets/luke-rig.webp",
+    "IMG_2703": "assets/img-2703.webp",
+    "IMG_2737": "assets/img-2737.webp",
+    "IMG_2816": "assets/img-2816.webp",
+    "IMG_2830": "assets/img-2830.webp",
+    "IMG_2861": "assets/img-2861.webp",
+    "IMG_3282": "assets/img-3282.webp",
+    "IMG_3373": "assets/img-3373.webp",
+    "still_1": "assets/still-1.webp",
+    "still_2": "assets/still-2.webp",
+    "still_3": "assets/still-3.webp",
+    "hero_wide": "assets/hero-wide.webp",
+    "poster": "assets/poster.webp",
+    "logo": "assets/logo.webp",
+    "frame_1": "assets/frame-1.webp",
+    "frame_2": "assets/frame-2.webp",
+    "frame_3": "assets/frame-3.webp",
+    "frame_4": "assets/frame-4.webp",
+    "frame_5": "assets/frame-5.webp"
+  }
+}
